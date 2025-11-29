@@ -7,8 +7,8 @@ This guide will help you integrate the Block Blast backend API into your game cl
 ### Base URL
 
 ```
-Development: http://localhost:5000
-Production: https://your-domain.com
+Development:
+Production: https://blockblast-backend.vercel.app/
 ```
 
 ### Headers
@@ -35,7 +35,9 @@ async function getOrCreatePlayer(name, email, profilePicture = null) {
   try {
     // Try to get existing player
     const response = await fetch(
-      `http://localhost:5000/api/players/email/${encodeURIComponent(email)}`
+      `https://blockblast-backend.vercel.app/api/players/email/${encodeURIComponent(
+        email
+      )}`
     );
 
     if (response.ok) {
@@ -45,17 +47,20 @@ async function getOrCreatePlayer(name, email, profilePicture = null) {
 
     // Player doesn't exist, create new one
     if (response.status === 404) {
-      const createResponse = await fetch("http://localhost:5000/api/players", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          profilePicture,
-        }),
-      });
+      const createResponse = await fetch(
+        "https://blockblast-backend.vercel.app/api/players",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            profilePicture,
+          }),
+        }
+      );
 
       const createData = await createResponse.json();
       return createData.data;
